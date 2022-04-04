@@ -1,10 +1,15 @@
 GitEmailPrototype
 ---
 
-A fully functional and easily integrateble Python class that retrieves a GitHub users' email address.
+A fully functional and easily integrateble class that retrieves a GitHub users' public email address.
 
-Usage example (for retrieving my accounts public email address):
+Python usage example:
 
 ```Python
 GitEmail("haraldar").git_email()
+```
+
+JavaScript usage example:
+```JavaScript
+new GitEmail("haraldar").gitEmail();
 ```
