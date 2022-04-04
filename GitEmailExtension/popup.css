@@ -1,0 +1,22 @@
+body{
+  background-color: #0d1117;
+  color: whitesmoke;
+}
+
+button{
+  background-color: #161b22;
+  color: aliceblue;
+}
+
+.grid-container {
+  display: grid;
+  grid-template-columns: auto auto;
+  grid-template-rows: auto auto;
+  padding: 5px;
+}
+
+.grid-item {
+  border: 1px solid rgba(0, 0, 0, 0.8);
+  padding: 10px;
+  text-align: center;
+}
