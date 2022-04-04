@@ -1,0 +1,23 @@
+{
+    "name" : "GitEmail", 
+    "version" : "1.0",
+    "author" : "Harald Asmus",
+    "manifest_version" : 2,
+    "description" : "Get the email of most GitHub users by username or ID.",
+    "icons" : {
+        "48" : "icon48.png",
+        "128" : "icon128.png"
+    },
+    "browser_action" : {
+        "default_popup" : "popup.html",
+        "default_title" : "GitEmail",
+        "default_icon" : {
+            "48" : "icon48.png",
+            "128" : "icon128.png"
+        }
+    },
+    "permissions" : [
+        "storage",
+        "tabs"
+    ]
+}
