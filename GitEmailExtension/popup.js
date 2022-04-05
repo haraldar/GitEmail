@@ -29,14 +29,13 @@ window.onload = function () {
                 console.log(urlParts);
                 let urlSuffix = urlParts[urlParts.length - 1];
                 console.log(urlSuffix);
-                if (!urlSuffix.includes("/")) {
+                if (!['/', '?', '='].some((char) => urlSuffix.includes(char))) {
                     setUser(urlSuffix);
                     searchButtonPressed();
                 }
             }
         }
     );
-
 }
 
 /**
@@ -81,11 +80,19 @@ async function searchButtonPressed () {
 }
 
 /**
- * TODO The button event that copies the content of the output label to the clipboard.
+ * The button event that copies the content of the output label to the clipboard.
  */
 function copyButtonPressed () {
-    console.log("Not yet implemented.");
-}
+    try {
+        navigator
+            .clipboard
+            .writeText(document.querySelector("#gituser-output").textContent);
+    }
+    catch (ex) {
+        console.log("Couldn't copy to clipboard with error:");
+        console.log(ex.toString());
+    }
+  }
 
 /**
  * Contains all functions that get user profile data, repositories and commits.
@@ -193,11 +200,16 @@ class GitEmail {
             return true;
         }
         else {
+            console.log(repos);
             for (let repo in repos) {
                 let commits = await this.getRepoCommits(repos[repo]);
+                console.log(commits);
+                console.log(repos[repo]);
                 for (var commit in commits) {
-                    if (commits[commit]["author"]["login"] == this.account) {
-                        return commits[commit]["commit"]["author"]["email"];
+                    if (commits[commit]["author"] != null) {
+                        if (commits[commit]["author"]["login"] == this.account) {
+                            return commits[commit]["commit"]["author"]["email"];
+                        }
                     }
                 }
             }
