@@ -61,7 +61,7 @@ class GitEmail():
             Optional[str]: Returns the username if found, otherwise None.
         """
 
-        response_dict = self.get_response(f"/{self.account_type.value}/{self.account}")
+        response_dict = self.get_user()
         return response_dict["login"] if "login" in response_dict.keys() else None
 
     def get_user(self) -> Optional[dict]:
