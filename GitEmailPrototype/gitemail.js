@@ -1,7 +1,7 @@
 /**
  * Contains all functions that get user profile data, repositories and commits.
  */
- export class GitEmail {
+ class GitEmail {
 
     constructor (account, accountType = Account.NAME) {
         this.API_BASE = "https://api.github.com";
@@ -104,11 +104,16 @@
             return true;
         }
         else {
+            console.log(repos);
             for (let repo in repos) {
                 let commits = await this.getRepoCommits(repos[repo]);
+                console.log(commits);
+                console.log(repos[repo]);
                 for (var commit in commits) {
-                    if (commits[commit]["author"]["login"] == this.account) {
-                        return commits[commit]["commit"]["author"]["email"];
+                    if (commits[commit]["author"] != null) {
+                        if (commits[commit]["author"]["login"] == this.account) {
+                            return commits[commit]["commit"]["author"]["email"];
+                        }
                     }
                 }
             }
@@ -121,7 +126,7 @@
 /**
  * A restricted amount of account types.
  */
-export class Account {
+class Account {
 
     static ID = "user";
     static NAME = "users";
@@ -139,7 +144,7 @@ export class Account {
 /**
  * A restricted amount of repository types.
  */
-export class Repo {
+class Repo {
 
     static ALL = null;
     static FORKED = true;
