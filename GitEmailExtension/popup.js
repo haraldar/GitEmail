@@ -63,6 +63,7 @@ let setEmail = (email) => document.querySelector("#gituser-output").textContent 
  * in the associated output label.
  */
 async function searchButtonPressed () {
+    setEmail("Processing...");
     chrome.tabs.query(
         {currentWindow : true, active : true}, 
         async function (tabs) {            
