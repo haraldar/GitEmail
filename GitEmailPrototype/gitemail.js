@@ -1,5 +1,5 @@
 /**
- * Contains all functions that get user profile data, repositories and commits.
+ * Contains functions that get user profile data, repositories and commits.
  */
  class GitEmail {
 
@@ -15,7 +15,7 @@
      * @returns The returned json from the GitHub API.
      */
     async getResponse (url_end) {
-        let response = await fetch(
+        const response = await fetch(
             this.API_BASE + "/" + url_end,
             {
                 method: 'GET',
@@ -24,7 +24,7 @@
                 'Content-Type': 'application/json',
                 }
             });
-        return await response.json();
+            return response.json();
     }
 
     /**
@@ -44,7 +44,7 @@
      * @returns The username or null.
      */
     async convertToName () {
-        let response = await this.getUser();
+        const response = await this.getUser();
         return (user != null) ?
             this.setAccount(response["login"], Account.NAME) :
             null;
@@ -55,32 +55,22 @@
      * @returns The user JSON.
      */
     async getUser () {
-        let user = await this.getResponse(`${this.accountType}/${this.account}`);
+        const user = await this.getResponse(`${this.accountType}/${this.account}`);
         return (user.hasOwnProperty("message")) ? null : user;
     }
 
     /**
-     * Fetches the users' repositories.
+     * Fetches the users' repositories (code piece created with the help of @nikitakhutorni).
      * @param {Repo} repoType The type filter for accepted repositories.
      * @param {Boolean} onlyNames Converts the results strictly to their repository name.
      * @returns A list of repositories. Either each entry is JSON-type or a string.
      */
     async getUserRepos (repoType = Repo.ALL, onlyNames = false) {
-        let response = await this.getResponse(`${this.accountType}/${this.account}/repos`);
-        if (response.hasOwnProperty("message")){
-            return null;
-        }
-        else {
-            let repos = [];
-            for (var repo in response) {
-                if (repoType == Repo.ALL || repoType == response[repo]["fork"]) {
-                    if (!onlyNames) repos.push(response[repo]);
-                    else repos.push(response[repo]["name"]);
-                }
-            }
-            console.log(repos);
-            return repos;
-        }
+        const response = await this.getResponse(`${this.accountType}/${this.account}/repos`);
+        return (response.hasOwnProperty("message")) ?
+            null :
+            response.filter(repo => repoType == Repo.ALL || repoType == repo["fork"])
+            .map(repo => onlyNames ? repo.name : repo);
     }
 
     /**
@@ -90,29 +80,30 @@
      */
     async getRepoCommits (repo) {
         return await this.getResponse(`repos/${this.account}/${repo}/commits`);
-    } 
+    }
+
+    async getRepoLanguages () {
+
+    }
 
     /**
      * Determines the users public committing email.
      * @returns The users' public email or null.
      */
     async gitEmail () {
-        let user = await this.getUser();
+        const user = await this.getUser();
         if (user == null) return null;
-        let repos = await this.getUserRepos(Repo.OWNED, true);
+        const repos = await this.getUserRepos(Repo.OWNED, true);
         if (repos.length == 0) {
             return true;
         }
         else {
-            console.log(repos);
             for (let repo in repos) {
                 let commits = await this.getRepoCommits(repos[repo]);
-                console.log(commits);
-                console.log(repos[repo]);
                 for (var commit in commits) {
-                    if (commits[commit]["author"] != null) {
-                        if (commits[commit]["author"]["login"] == this.account) {
-                            return commits[commit]["commit"]["author"]["email"];
+                    if (commits[commit].author != null) {
+                        if (commits[commit].author.login == this.account) {
+                            return commits[commit].commit.author.email;
                         }
                     }
                 }
@@ -158,3 +149,5 @@ class Repo {
         return this.repo_type;
     }
 }
+
+export {GitEmail, Account, Repo};
