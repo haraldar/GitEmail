@@ -1,6 +1,7 @@
 body{
   background-color: #0d1117;
   color: whitesmoke;
+  width: fit-content;
 }
 
 button{
