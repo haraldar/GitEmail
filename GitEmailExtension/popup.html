@@ -1,14 +1,11 @@
 <!DOCTYPE html>
 <html lang="en">
-
     <head>
-
         <meta charset="UTF-8">
         <title>GitEmail</title>
         <link rel="stylesheet" href="popup.css">
-
+        <script type="module" src="gitemail.js"></script>
     </head>
-
     <body>
         <div>
             <div id="input-div" class="grid-container">
@@ -17,11 +14,8 @@
                 <label id="gituser-output" class="grid-item"></label>
                 <button id="copy-button" class="grid-item">Copy.</button>
             </div>
-            <button id="full-report-button" class="grid-item" style="width: 100%;">Get Full Report.</button>
+            <button id="fullreport-button" class="grid-item" style="width: 100%;">Get Full Report.</button>
         </div>
-        
-        <script src="popup.js" charset="UTF-8"></script>
-
+        <script type="module" src="popup.js" charset="UTF-8"></script>
     </body>
-
 </html>
