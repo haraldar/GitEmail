@@ -31,13 +31,29 @@ window.onload = async function () {
         setMultipleText(coherents_nocheck, ghToReportOn, false);
         setMultipleText(coherents_withcheck, ghToReportOn);
 
+        getElem("account").href = `https://www.github.com/${ghToReportOn.login}`;
+
+        if (ghToReportOn.company != null)
+            getElem("company").href = "https://www.github.com/" + ghToReportOn.company
+            .replace("@", "")
+            .replace(" ", "");
+
+        if (ghToReportOn.blog != null)
+            getElem("blog").href = ghToReportOn.blog;
+
+        if (ghToReportOn.twitter_username !== null)
+            getElem("twitter").href = "https://www.twitter.com/" + ghToReportOn.twitter_username;
+
         // Check if email has been correctly extracted, else obtain it from one of the commits.
         const reportedUser = getElem("account").textContent;
         console.log(await new GitEmail(reportedUser).getUser());
         const email = await new GitEmail(reportedUser).gitEmail();
         if (email !== null && email !== true && email != false) {
             const currentDisplayedEmail = getElem("email").textContent;
-            if (currentDisplayedEmail == "Not given.") getElem("email").textContent = email;
+            if (currentDisplayedEmail == "Not given.") {
+                getElem("email").textContent = email;
+                getElem("email").href = `mailto:${email}`;
+            }
         };
         const repos = await new GitEmail(reportedUser).getUserRepos(Repo.OWNED, false);
         console.log(repos);
