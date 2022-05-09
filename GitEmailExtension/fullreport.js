@@ -33,6 +33,7 @@ window.onload = async function () {
 
         // Check if email has been correctly extracted, else obtain it from one of the commits.
         const reportedUser = getElem("account").textContent;
+        console.log(await new GitEmail(reportedUser).getUser());
         const email = await new GitEmail(reportedUser).gitEmail();
         if (email !== null && email !== true && email != false) {
             const currentDisplayedEmail = getElem("email").textContent;
