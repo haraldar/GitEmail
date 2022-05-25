@@ -1,5 +1,11 @@
 import {GitEmail, Account, Repo} from './gitemail.js';
 
+// TODO
+// 1. extract all languages of a user from the last 30 repos, count them together then display in spider chart
+// 2. get all associates in the last 30 repos and show as mind map
+// 3. get used libraries from each file
+
+
 const coherents_withcheck = {
     "name" : "name",
     "bio" : "bio",
@@ -33,15 +39,18 @@ window.onload = async function () {
 
         getElem("account").href = `https://www.github.com/${ghToReportOn.login}`;
 
-        if (ghToReportOn.company != null)
-            getElem("company").href = "https://www.github.com/" + ghToReportOn.company
-            .replace("@", "")
-            .replace(" ", "");
+        if (ghToReportOn.company != null) {
+            if (ghToReportOn.company.includes("@")) {
+                getElem("company").href = "https://www.github.com/" + ghToReportOn.company
+                .replace("@", "")
+                .replace(" ", "");
+            }
+        }
 
         if (ghToReportOn.blog != null)
             getElem("blog").href = ghToReportOn.blog;
 
-        if (ghToReportOn.twitter_username !== null)
+        if (ghToReportOn.twitter_username != null)
             getElem("twitter").href = "https://www.twitter.com/" + ghToReportOn.twitter_username;
 
         // Check if email has been correctly extracted, else obtain it from one of the commits.
@@ -74,4 +83,13 @@ function setMultipleText (elems_dict, data_dict, notGivenCheck = true) {
     for (let elem in elems_dict) {
         setElemText(elem, elems_dict[elem], data_dict, notGivenCheck);
     }
+}
+
+
+function newElem (id, text, href = null) {
+    // 1.1 Check if elem exists.
+    // 1.2. if elem exists, remove.
+    // 2.1. create elem with id
+    // 2.2. set href if given and as a-tag
+    // 3. Insert the element in the correct div.
 }
