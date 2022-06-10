@@ -88,7 +88,8 @@
 
     /**
      * Determines the users public committing email.
-     * @returns The users' public email or null.
+     * @returns The users' public email, true if no repos to scan, false if no repos
+     * that contain the user's commits or null if user doesn't exist.
      */
     async gitEmail () {
         const user = await this.getUser();
