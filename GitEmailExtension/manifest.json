@@ -1,6 +1,6 @@
 {
     "name" : "GitEmail", 
-    "version" : "2.2",
+    "version" : "3.0.0",
     "author" : "Harald Asmus",
     "manifest_version" : 2,
     "description" : "Get the email of most GitHub users by username or ID.",
@@ -19,14 +19,22 @@
     "content_scripts" : [
         {
             "matches" : [
-                "*://github.com/*",
-                "*://github.com/*?"
+                "*://github.com/*"
             ],
-            "js": ["gistbutton.js"]
+            "js": [
+                "gitemail_elems.js"
+            ]
         }
     ],
     "permissions" : [
         "storage",
         "tabs"
+    ],
+    "web_accessible_resources" : [
+        "gitemail_logo.svg",
+        "gitemail.js",
+        "fullreport.html",
+        "fullreport.js",
+        "fullreport.css"
     ]
 }
