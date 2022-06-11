@@ -78,6 +78,7 @@ async function insertGitemailEmail () {
     }
     catch (ex) {
         errored = true;
+        userEmail = "Couldn't retrieve user data.";
     }
 
 }
