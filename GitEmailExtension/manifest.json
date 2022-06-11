@@ -1,9 +1,9 @@
 {
     "name" : "GitEmail", 
-    "version" : "3.0.0",
+    "version" : "3.0.1",
     "author" : "Harald Asmus",
     "manifest_version" : 2,
-    "description" : "Get the email of most GitHub users by username or ID.",
+    "description" : "Adds the user's public email to the profile overview and injects a Gists button.",
     "icons" : {
         "48" : "icon48.png",
         "128" : "icon128.png"
@@ -33,8 +33,8 @@
     "web_accessible_resources" : [
         "gitemail_logo.svg",
         "gitemail.js",
-        "fullreport.html",
-        "fullreport.js",
-        "fullreport.css"
+        "gitemail_search.html",
+        "gitemail_search.js",
+        "gitemail_search.css"
     ]
 }
