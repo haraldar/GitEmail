@@ -1,0 +1,203 @@
+body{
+  background-color: #0d1117;
+  color: whitesmoke;
+  text-align: center;
+  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+}
+
+.wrapper {
+  text-align: center;
+}
+
+.centeredelem {
+  display: inline-block;
+}
+
+.thickspan {
+  font-weight: 900;
+  background-color: inherit;
+}
+
+.centeredlist {
+  margin-top: 30px;
+  list-style: none;
+  text-align: center;
+  max-width: 100%;
+  padding-inline-start: 0px;
+}
+
+.centeredlistitem {
+  display: block;
+}
+
+/* The following input field modification and the button style
+were borrowed from https://cssfx.netlify.app/ */
+
+/* Input with outlines */
+
+input {
+  width: 6.5em;
+  color: white;
+  font-size: inherit;
+  font-family: inherit;
+  background-color: hsl(236, 32%, 26%);
+  padding: 0.35em 0.45em;
+  border: 1px solid transparent;
+  transition: background-color 0.3s ease-in-out;
+}
+
+input:focus {
+  outline: none;
+}
+
+input::placeholder {
+  color: hsla(0, 0%, 100%, 0.6);
+}
+
+span {
+  position: absolute;
+  background-color: #3cefff;
+  transition: transform 0.5s ease;
+}
+
+.bottom,
+.top {
+  height: 1px;
+  left: 0;
+  right: 0;
+  transform: scaleX(0);
+}
+
+.left,
+.right {
+  width: 1px;
+  top: 0;
+  bottom: 0;
+  transform: scaleY(0);
+}
+
+.bottom {
+  bottom: 0;
+  transform-origin: bottom right;
+}
+
+input:focus ~ .bottom {
+  transform-origin: bottom left;
+  transform: scaleX(1);
+}
+
+.right {
+  right: 0;
+  transform-origin: top right;
+}
+
+input:focus ~ .right {
+  transform-origin: bottom right;
+  transform: scaleY(1);
+}
+
+.top {
+  top: 0;
+  transform-origin: top left;
+}
+
+input:focus ~ .top {
+  transform-origin: top right;
+  transform: scaleX(1);
+}
+
+.left {
+  left: 0;
+  transform-origin: bottom left;
+}
+
+input:focus ~ .left {
+  transform-origin: top left;
+  transform: scaleY(1);
+}
+
+/* Pulse Button */
+
+button {
+  z-index: 1;
+  position: relative;
+  font-size: inherit;
+  font-family: inherit;
+  color: white;
+  padding: 0.5em 1em;
+  outline: none;
+  border: none;
+  background-color: #161b22;
+}
+
+button:hover {
+  cursor: pointer;
+}
+
+button::before {
+  content: '';
+  z-index: -1;
+  position: absolute;
+  top: 0;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  border: 4px solid hsl(236, 32%, 26%);
+  transform-origin: center;
+  transform: scale(1);
+}
+
+button:hover::before {
+  transition: all 0.75s ease-in-out;
+  transform-origin: center;
+  transform: scale(1.75);
+  opacity: 0;
+}
+
+/* Loader */
+
+.loader {
+  position: relative;
+}
+
+.outer,
+.middle,
+.inner {
+  border: 3px solid transparent;
+  border-top-color: #3cefff;
+  border-right-color: #3cefff;
+  border-radius: 50%;
+  position: absolute;
+  top: 50%;
+  left: 50%;
+}
+
+.outer {
+  width: 3.5em;
+  height: 3.5em;
+  margin-left: -1.75em;
+  margin-top: -1.75em;
+  animation: spin 2s linear infinite;
+}
+
+.middle {
+  width: 2.1em;
+  height: 2.1em;
+  margin-left: -1.05em;
+  margin-top: -1.05em;
+  animation: spin 1.75s linear reverse infinite;
+}
+
+.inner {
+  width: 0.8em;
+  height: 0.8em;
+  margin-left: -0.4em;
+  margin-top: -0.4em;
+  animation: spin 1.5s linear infinite;
+}
+
+@keyframes spin {
+  to {
+    transform: rotate(360deg);
+  }
+}

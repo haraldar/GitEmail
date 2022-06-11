@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title id="gitemail-search-title">GitEmail Search</title>
+    <link rel="stylesheet" href="gitemail_search.css">
+    <script type="module" src="gitemail.js"></script>
+</head>
+<body>
+    <img title="GitEmail Logo" src="icon128.png" />
+    <div class="wrapper">
+        <div class="centeredelem" style="position: relative; width: fit-content;">
+            <input id="gitemail-input" type="text" style="width: 300px;" placeholder="User(s)">
+            <span class="bottom"></span>
+            <span class="right"></span>
+            <span class="top"></span>
+            <span class="left"></span>
+        </div>
+        <br>
+        <button id="gitemail-search-button" style="margin-top: 10px;" type="button">Find User(s)!</button>
+        <br>
+        <ul id="gitemail-results" class="centeredlist">
+        </ul>
+        <div id="gitemail-loader" class="loader" style="margin-top: 30px; visibility: hidden;">
+            <div class="outer"></div>
+            <div class="middle"></div>
+            <div class="inner"></div>
+          </div>
+          
+    </div>
+    
+    <script type="module" src="gitemail_search.js" charset="UTF-8"></script>
+</body>
+</html>
