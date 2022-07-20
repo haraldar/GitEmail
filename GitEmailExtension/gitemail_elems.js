@@ -1,8 +1,10 @@
 let errored = false;
 
+
 const getUrlParts = function (delim = '/') {
     return window.location.href.split(delim);
 }
+
 
 const getUserFromUrl = function () {
     const userPath = getUrlParts("github.com/")[1];
@@ -11,6 +13,7 @@ const getUserFromUrl = function () {
         : user;
     return user;
 }
+
 
 const createTabButton = function (btnId, btnText, eventAction) {
 
@@ -34,6 +37,7 @@ const createTabButton = function (btnId, btnText, eventAction) {
     }
 }
 
+
 const gistsBtnAction = function () {
     const user = getUserFromUrl();
     window.location = `https://gist.github.com/${user}`;
@@ -44,60 +48,6 @@ const invitationsBtnAction = function () {
     const user = getUserFromUrl();
 }
 
-
-// function createGistsButton () {
-
-//     const URL = window.location.href;
-//     const urlParts = URL.split('/');
-    
-//     if (document.getElementById("gitemail-gist-button") === null 
-//         && urlParts.length < 5
-//         && urlParts[urlParts.length - 1] !== "") {
-
-//         const NAV = document.getElementsByClassName("UnderlineNav-body width-full p-responsive");
-//         let gistbutton = document.createElement("button");
-//         gistbutton.appendChild(document.createTextNode("Gists"));
-//         gistbutton.setAttribute("class", "UnderlineNav-item js-responsive-underlinenav-item");
-//         gistbutton.setAttribute("id", "gitemail-gist-button");
-//         gistbutton.addEventListener(
-//             "click",
-//             () => {
-//                 let user = URL.split("github.com/")[1];
-//                 if (user.includes('?')) user = user.split('?')[0];
-//                 window.location = `https://gist.github.com/${user}`;
-//             },
-//             false);
-//         if (NAV.length > 0) NAV[0].append(gistbutton);
-
-//     }
-// }
-
-// function createInvitationsButton () {
-
-//     const URL = window.location.href;
-//     const urlParts = URL.split('/');
-    
-//     if (document.getElementById("gitemail-gist-button") === null 
-//         && urlParts.length < 5
-//         && urlParts[urlParts.length - 1] !== "") {
-
-//         const NAV = document.getElementsByClassName("UnderlineNav-body width-full p-responsive");
-//         let gistbutton = document.createElement("button");
-//         gistbutton.appendChild(document.createTextNode("Gists"));
-//         gistbutton.setAttribute("class", "UnderlineNav-item js-responsive-underlinenav-item");
-//         gistbutton.setAttribute("id", "gitemail-gist-button");
-//         gistbutton.addEventListener(
-//             "click",
-//             () => {
-//                 let user = URL.split("github.com/")[1];
-//                 if (user.includes('?')) user = user.split('?')[0];
-//                 window.location = `https://gist.github.com/${user}`;
-//             },
-//             false);
-//         if (NAV.length > 0) NAV[0].append(gistbutton);
-
-//     }
-// }
 
 function createGitemailEntry () {
     
@@ -134,6 +84,7 @@ function createGitemailEntry () {
     return false;
 }
 
+
 async function insertGitemailEmail () {
 
     // Extract user from URL.
@@ -159,6 +110,7 @@ async function insertGitemailEmail () {
 
 }
 
+
 function insertGitemailElements () {
     if (errored === false) {
         createTabButton("gitemail-gists-btn", "Gists", gistsBtnAction);
@@ -166,6 +118,7 @@ function insertGitemailElements () {
         if (createGitemailEntry()) insertGitemailEmail();
     }
 }
+
 
 window.onload = () => insertGitemailElements();
 window.setInterval(() => insertGitemailElements(), 500);
