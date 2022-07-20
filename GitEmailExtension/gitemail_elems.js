@@ -1,11 +1,14 @@
 let errored = false;
 
 function createGistsButton () {
+
     const URL = window.location.href;
     const urlParts = URL.split('/');
-    if (document.getElementById("gitemail-gist-button") === null
-     && urlParts.length < 5
-     && urlParts[urlParts.length - 1] !== "") {
+    
+    if (document.getElementById("gitemail-gist-button") === null 
+        && urlParts.length < 5
+        && urlParts[urlParts.length - 1] !== "") {
+
         const NAV = document.getElementsByClassName("UnderlineNav-body width-full p-responsive");
         let gistbutton = document.createElement("button");
         gistbutton.appendChild(document.createTextNode("Gists"));
@@ -20,6 +23,7 @@ function createGistsButton () {
             },
             false);
         if (NAV.length > 0) NAV[0].append(gistbutton);
+
     }
 }
 
