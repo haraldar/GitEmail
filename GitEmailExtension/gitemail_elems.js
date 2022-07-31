@@ -45,6 +45,7 @@ const createNodeElem = function (type, attrs = {}, children = [], listener = nul
 
 }
 
+
 /**
  * Adds a new tab to the GitHub UI.
  * @param {string} btnId - The HTML id to use for the button in the website.
@@ -53,12 +54,12 @@ const createNodeElem = function (type, attrs = {}, children = [], listener = nul
  */
 const addTabButton = function (btnId, btnText, listener) {
 
-    const urlParts = getUrlParts();
+    const pathParts = getUrlPathParts();
     
     if (
         document.getElementById(btnId) !== null
-        || urlParts.length >= 5
-        || urlParts[urlParts.length - 1] === ""
+        || pathParts.length > 2
+        || pathParts[pathParts.length - 1] === ""
     ) return;
             
     const tabBtn = createNodeElem(
@@ -80,8 +81,7 @@ const addTabButton = function (btnId, btnText, listener) {
 
 
 const gistsBtnAction = function () {
-    const user = getUserFromUrl();
-    window.location = `https://gist.github.com/${user}`;
+    window.location = `https://gist.github.com/${getUserFromUrl()}`;
 }
 
 
@@ -150,9 +150,7 @@ function createGitemailEntry () {
 async function insertGitemailEmail () {
 
     // Extract user from URL.
-    const URL = window.location.href;
-    let user = URL.split("github.com/")[1];
-    if (user.includes('?')) user = user.split('?')[0];
+    let user = getUserFromUrl();
 
     // Try get the user email.
     try {
