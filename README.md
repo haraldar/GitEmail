@@ -1,11 +1,14 @@
 GitEmail
 ---
 
-Library/ module in JavaScript and Python for extracting (and soon analyzing) user profile information using the public GitHub API.
+A Chrome extension for enhancing the GitHub UI.
 
-The Chrome browser extension features:
+Features:
   - getting the public email of GitHub users by username or ID.
-  - injects a Gists button that navigates to the gists page of the user in question.
-  - [in progress] collects, analyzes and produces a report of a user profile.
+  - a Gists button that navigates to the gists page of the displayed users' page.
+  - [soon] an Invitations button that easily allows to enter a company/ GH user and a repo.
+  - [maybe] download code button anywhere in the folder structure.
+  
+Includes the main library in JS and Python for possible separate usage.
 
 (Basically a pun. "GitEmail" = "Get Email", but with "Git". Do you git it? I mean get it.)
