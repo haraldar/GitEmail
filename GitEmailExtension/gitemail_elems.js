@@ -1,6 +1,20 @@
 let errored = false;
 let currentURL = null;
 
+const dropDowns = {
+    actions: 0,
+    profile: 1
+};
+
+
+// onselection change event listener for tab ot update if
+// the gitemail data have to be updated
+
+
+const getModule = async function (filePath) {
+    return await import(chrome.runtime.getURL(filePath));
+}
+
 
 const getUrlParts = function (delim = '/') {
     return window.location.href.split(delim);
@@ -14,6 +28,14 @@ const getUrlPathParts = function (delim = '/') {
 
 const getUserFromUrl = function () {
     return getUrlPathParts()[1];
+}
+
+const getProfileSummarySide = function () {
+    return document.getElementsByClassName("js-profile-editable-area d-flex flex-column d-md-block");
+}
+
+const getDropDownMenu = function () {
+    return document.getElementsByClassName("dropdown-menu dropdown-menu-sw");
 }
 
 
@@ -52,12 +74,12 @@ const createNodeElem = function (type, attrs = {}, children = [], listener = nul
  * @param {string} btnText - The text that is displayed on the button.
  * @param {EventListener} listener - The EventListener for the tab.
  */
-const addTabButton = function (btnId, btnText, listener) {
+const addTabButton = function (id, text, listener) {
 
     const pathParts = getUrlPathParts();
     
     if (
-        document.getElementById(btnId) !== null
+        document.getElementById(id) !== null
         || pathParts.length > 2
         || pathParts[pathParts.length - 1] === ""
     ) return;
@@ -65,11 +87,11 @@ const addTabButton = function (btnId, btnText, listener) {
     const tabBtn = createNodeElem(
         "button",
         {
-            id: btnId,
+            id,
             class: "UnderlineNav-item js-responsive-underlinenav-item"
         },
         [
-            document.createTextNode(btnText)
+            document.createTextNode(text)
         ],
         listener
     );
@@ -78,6 +100,58 @@ const addTabButton = function (btnId, btnText, listener) {
     if (NAV.length > 0) NAV[0].append(tabBtn);
 
 }
+
+
+// TODO might add an enum here for selection of the correct dropdown menu
+
+/**
+ * 
+ * @param {string} id 
+ * @param {string} text 
+ * @param {EventListener} listener 
+ */
+const addDropDownMenuItem = function (id, text, listener = null) {
+
+    const item = createNodeElem(
+        "a",
+        {
+            id,
+            role: "menuitem",
+            class: "dropdown-item"
+        },
+        [
+            document.createTextNode(text)
+        ],
+        listener
+    );
+
+    const ddMenu = getDropDownMenu();
+    // const ddMenuLength = ddMenu[1].childNodes.length;
+    // console.log(ddMenu[1]);
+    // console.log(ddMenu[1].children);
+    if (ddMenu[1].lastElementChild.localName === "include-fragment") {
+
+        const divider = createNodeElem(
+            "div",
+            {
+                role: "none",
+                class: "dropdown-divider"
+            }
+        );
+
+        ddMenu[1].appendChild(divider);
+
+    }
+
+    ddMenu[1].appendChild(item);
+}
+
+
+// const addProfileSideSummaryElement = function (elem) {
+
+// }
+
+// const replaceTabContent
 
 
 const gistsBtnAction = function () {
@@ -147,6 +221,14 @@ function createGitemailEntry () {
 }
 
 
+function createInvitationsEntry () {
+    addDropDownMenuItem(
+        "gitemail-goto-invitations",
+        "Your Invitations"
+    )
+}
+
+
 async function insertGitemailEmail () {
 
     // Extract user from URL.
@@ -172,20 +254,13 @@ async function insertGitemailEmail () {
 
 
 function insertGitemailElements () {
-    if (currentURL === null) {
-        console.log("href: " + window.location.href);
-        console.log("hash: " + window.location.hash);
-        console.log("search: " + window.location.search);
-        console.log("pathname: " + window.location.pathname);
-
-        console.log("user: " + getUserFromUrl());
-    }
     if (currentURL !== window.location.href) {
         currentURL = window.location.href;
         addTabButton("gitemail-gists-btn", "Gists", gistsBtnAction);
+        addDropDownMenuItem("gitemail-goto-invitations", "Your Invitations");
+        // createInvitationsEntry();
         // addTabButton("gitemail-invitations-btn", "Invitations", invitationsBtnAction);
-        if (createGitemailEntry())
-            insertGitemailEmail();
+        if (createGitemailEntry()) insertGitemailEmail();
     }
 }
 
