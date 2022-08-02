@@ -1,1 +1,0 @@
-window.onload = chrome.tabs.create({ url: chrome.runtime.getURL("search/gitemail_search.html") });

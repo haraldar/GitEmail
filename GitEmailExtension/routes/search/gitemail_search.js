@@ -1,4 +1,4 @@
-import {GitEmail, Account, Repo} from '..gitemail';
+import { GitEmail, Account, Repo } from '../../lib/gitemail.js';
 
 window.onload = () => {
 

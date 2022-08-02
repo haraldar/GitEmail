@@ -9,7 +9,7 @@
         "128" : "static/icon128.png"
     },
     "browser_action" : {
-        "default_popup" : "popup.html",
+        "default_popup" : "routes/popup/popup.html",
         "default_title" : "GitEmail",
         "default_icon" : {
             "48" : "static/icon48.png",
@@ -31,9 +31,10 @@
         "tabs"
     ],
     "web_accessible_resources" : [
-        "gitemail.js",
-        "search/*",
+        "routes/search/*",
         "static/*",
-        "invitations/*"
+        "routes/invitations/*",
+        "routes/popup/*",
+        "lib/*"
     ]
 }

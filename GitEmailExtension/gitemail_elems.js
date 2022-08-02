@@ -1,3 +1,5 @@
+// import { _ } from "lib/ghhelpers.js";
+
 let errored = false;
 let currentURL = null;
 
@@ -164,6 +166,7 @@ const invitationsBtnAction = function () {
     mainElem.innerHTML = '';
 }
 
+
 /**
  * Create the GitEmail profile summary entry.
  * @returns {boolean} true if element doesn't exist yet else false
@@ -228,7 +231,7 @@ async function insertGitemailEmail () {
 
     // Try get the user email.
     try {
-        const gitEmail = await import(chrome.runtime.getURL("gitemail.js"));
+        const gitEmail = await import(chrome.runtime.getURL("lib/gitemail.js"));
         let userEmail = await (new gitEmail.GitEmail(user)).gitEmail();
         if (userEmail === true) userEmail = "No repos to scan.";
         else if (userEmail === false) userEmail = "No commits to scan.";
