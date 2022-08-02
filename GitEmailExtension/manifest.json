@@ -1,9 +1,9 @@
 {
     "name" : "GitEmail", 
-    "version" : "3.0.1",
+    "version" : "0.3.3",
     "author" : "Harald Asmus",
     "manifest_version" : 2,
-    "description" : "Adds the user's public email to the profile overview and injects a Gists button.",
+    "description" : "Enhances the current GitHub UI with features such as fetching the public email and Gists button, etc.",
     "icons" : {
         "48" : "static/icon48.png",
         "128" : "static/icon128.png"
