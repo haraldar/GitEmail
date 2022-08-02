@@ -32,12 +32,8 @@
     ],
     "web_accessible_resources" : [
         "gitemail.js",
-        "search/gitemail_search.css",
-        "search/gitemail_search.html",
-        "search/gitemail_search.js",
-        "static/gitemail_logo.svg",
-        "static/icon48.png",
-        "static/icon128.png",
+        "search/*",
+        "static/*",
         "invitations/*"
     ]
 }
