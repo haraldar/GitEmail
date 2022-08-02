@@ -102,15 +102,16 @@ const addTabButton = function (id, text, listener) {
 }
 
 
-// TODO might add an enum here for selection of the correct dropdown menu
-
 /**
- * 
- * @param {string} id 
- * @param {string} text 
- * @param {EventListener} listener 
+ * Inserts a new option to click into the dropdowns existing in the GH UI.
+ * @param {number} dropdown - The dropdown number. Use the dropdown object supplied.
+ * @param {string} id - The id to use for the element in the frontend.
+ * @param {string} text - The text that is presented on the button.
+ * @param {EventListener} listener - The action that is to be used upon clicking on the element.
  */
-const addDropDownMenuItem = function (id, text, listener = null) {
+const addDropDownMenuItem = function (dropdown, id, text, listener = null) {
+
+    const ddMenu = getDropDownMenu()[dropdown];
 
     const item = createNodeElem(
         "a",
@@ -124,12 +125,9 @@ const addDropDownMenuItem = function (id, text, listener = null) {
         ],
         listener
     );
-
-    const ddMenu = getDropDownMenu();
-    // const ddMenuLength = ddMenu[1].childNodes.length;
-    // console.log(ddMenu[1]);
-    // console.log(ddMenu[1].children);
-    if (ddMenu[1].lastElementChild.localName === "include-fragment") {
+    
+    
+    if (ddMenu.lastElementChild.localName === "include-fragment") {
 
         const divider = createNodeElem(
             "div",
@@ -139,11 +137,12 @@ const addDropDownMenuItem = function (id, text, listener = null) {
             }
         );
 
-        ddMenu[1].appendChild(divider);
+        ddMenu.appendChild(divider);
 
     }
 
-    ddMenu[1].appendChild(item);
+    ddMenu.appendChild(item);
+
 }
 
 
@@ -160,9 +159,10 @@ const gistsBtnAction = function () {
 
 
 const invitationsBtnAction = function () {
-    const user = getUserFromUrl();
+    // const user = getUserFromUrl();
+    const mainElem = document.getElementById("js-pjax-container");
+    mainElem.innerHTML = '';
 }
-
 
 /**
  * Create the GitEmail profile summary entry.
@@ -179,7 +179,7 @@ function createGitemailEntry () {
             "img",
             {
                 id: "gitemail-logo-svg",
-                src: chrome.extension.getURL("gitemail_logo.svg"),
+                src: chrome.extension.getURL("static/gitemail_logo.svg"),
                 height: "16",
                 viewBox: "0 0 16 16"
             }
@@ -221,14 +221,6 @@ function createGitemailEntry () {
 }
 
 
-function createInvitationsEntry () {
-    addDropDownMenuItem(
-        "gitemail-goto-invitations",
-        "Your Invitations"
-    )
-}
-
-
 async function insertGitemailEmail () {
 
     // Extract user from URL.
@@ -255,12 +247,24 @@ async function insertGitemailEmail () {
 
 function insertGitemailElements () {
     if (currentURL !== window.location.href) {
+
         currentURL = window.location.href;
-        addTabButton("gitemail-gists-btn", "Gists", gistsBtnAction);
-        addDropDownMenuItem("gitemail-goto-invitations", "Your Invitations");
-        // createInvitationsEntry();
-        // addTabButton("gitemail-invitations-btn", "Invitations", invitationsBtnAction);
-        if (createGitemailEntry()) insertGitemailEmail();
+
+        addTabButton(
+            "gitemail-gists-btn",
+            "Gists",
+            gistsBtnAction
+        );
+
+        addDropDownMenuItem(
+            dropDowns.profile,
+            "gitemail-goto-invitations",
+            "Your Invitations",
+            invitationsBtnAction
+        );
+        
+        if (createGitemailEntry())
+            insertGitemailEmail();
     }
 }
 

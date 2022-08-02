@@ -5,15 +5,15 @@
     "manifest_version" : 2,
     "description" : "Adds the user's public email to the profile overview and injects a Gists button.",
     "icons" : {
-        "48" : "icon48.png",
-        "128" : "icon128.png"
+        "48" : "static/icon48.png",
+        "128" : "static/icon128.png"
     },
     "browser_action" : {
         "default_popup" : "popup.html",
         "default_title" : "GitEmail",
         "default_icon" : {
-            "48" : "icon48.png",
-            "128" : "icon128.png"
+            "48" : "static/icon48.png",
+            "128" : "static/icon128.png"
         }
     },
     "content_scripts" : [
@@ -31,10 +31,13 @@
         "tabs"
     ],
     "web_accessible_resources" : [
-        "gitemail_logo.svg",
         "gitemail.js",
-        "gitemail_search.html",
-        "gitemail_search.js",
-        "gitemail_search.css"
+        "search/gitemail_search.css",
+        "search/gitemail_search.html",
+        "search/gitemail_search.js",
+        "static/gitemail_logo.svg",
+        "static/icon48.png",
+        "static/icon128.png",
+        "invitations/*"
     ]
 }
