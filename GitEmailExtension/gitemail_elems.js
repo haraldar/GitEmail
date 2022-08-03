@@ -30,9 +30,11 @@ const getUserFromUrl = function () {
     return getUrlPathParts()[1];
 }
 
+
 const getProfileSummarySide = function () {
     return document.getElementsByClassName("js-profile-editable-area d-flex flex-column d-md-block");
 }
+
 
 const getDropDownMenu = function () {
     return document.getElementsByClassName("dropdown-menu dropdown-menu-sw");
@@ -163,6 +165,7 @@ const invitationsBtnAction = function () {
 
 }
 
+
 const createInvitationsBtn = function () {
 
     const id = "gitemail-goto-invitations";
@@ -182,6 +185,7 @@ const createInvitationsBtn = function () {
         false
     );
 }
+
 
 /**
  * Create the GitEmail profile summary entry.
