@@ -163,6 +163,25 @@ const invitationsBtnAction = function () {
 
 }
 
+const createInvitationsBtn = function () {
+
+    const id = "gitemail-goto-invitations";
+
+    if (document.getElementById(id) !== null)
+        return;
+
+    const invi = addDropDownMenuItem(
+        dropDowns.profile,
+        id,
+        "Your Invitations"
+    );
+    invi.style = "cursor: pointer;"
+    invi.addEventListener(
+        "click",
+        () => { invitationsBtnAction(); },
+        false
+    );
+}
 
 /**
  * Create the GitEmail profile summary entry.
@@ -257,17 +276,7 @@ function insertGitemailElements () {
             gistsBtnAction
         );
 
-        const invi = addDropDownMenuItem(
-            dropDowns.profile,
-            "gitemail-goto-invitations",
-            "Your Invitations"
-        );
-        invi.style = "cursor: pointer;"
-        invi.addEventListener(
-            "click",
-            () => { invitationsBtnAction(); },
-            false
-        );
+        createInvitationsBtn();
         
         if (createGitemailEntry())
             insertGitemailEmail();
