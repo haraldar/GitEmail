@@ -1,39 +1,37 @@
 <!DOCTYPE html>
 <html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link rel="stylesheet" href="gitemail_invitations.css">
-    <title>GitEmail Invitations</title>
-</head>
-<body>
-    <div class="container">
-        <div>
-            <img title="GitEmail Logo" src="../../static/icon128.png" />
-            <h2>Invitations</h2>
+    <head>
+        <meta charset="UTF-8">
+        <meta http-equiv="X-UA-Compatible" content="IE=edge">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <link rel="stylesheet" href="gitemail_invitations.css">
+        <title>GitEmail Invitations</title>
+    </head>
+    <body>
+        <div class="container">
+            <div>
+                <img title="GitEmail Logo" src="../../static/icon128.png" />
+                <h2>Invitations</h2>
+            </div>
+            <div class="gitemail-repo">
+                <input id="source-input" type="text" placeholder="Invitation Source">
+                <span class="bottom"></span>
+                <span class="right"></span>
+                <span class="top"></span>
+                <span class="left"></span>
+            </div>
+            <div class="gitemail-repo">
+                <input id="repo-input" type="text" placeholder="Repo Name">
+                <span class="bottom"></span>
+                <span class="right"></span>
+                <span class="top"></span>
+                <span class="left"></span>
+            </div>
+            <div>
+                <button id="find-btn" class="pulsy-button">FIND!</button>
+            </div>
         </div>
-        <!-- <div class="sub-container">
-        </div> -->
-        <div class="gitemail-repo">
-            <input type="text" placeholder="Repo Name">
-            <span class="bottom"></span>
-            <span class="right"></span>
-            <span class="top"></span>
-            <span class="left"></span>
-        </div>
-        <div class="gitemail-repo">
-            <input type="text" placeholder="Invitation Source">
-            <span class="bottom"></span>
-            <span class="right"></span>
-            <span class="top"></span>
-            <span class="left"></span>
-        </div>
-        <div>
-            <button class="pulsy-button">FIND!</button>
-        </div>
-    </div>
-      
-    <script type="module" src="gitemail_invitations.js" charset="UTF-8"></script>
-</body>
+        
+        <script type="module" src="gitemail_invitations.js" charset="UTF-8"></script>
+    </body>
 </html>

@@ -159,9 +159,6 @@ const gistsBtnAction = function () {
 
 const invitationsBtnAction = function () {
     
-    // const user = getUserFromUrl();
-    // const mainElem = document.getElementById("js-pjax-container");
-    // mainElem.innerHTML = '';
     window.location.href = chrome.runtime.getURL("routes/invitations/gitemail_invitations.html");
 
 }
@@ -265,6 +262,7 @@ function insertGitemailElements () {
             "gitemail-goto-invitations",
             "Your Invitations"
         );
+        invi.style = "cursor: pointer;"
         invi.addEventListener(
             "click",
             () => { invitationsBtnAction(); },
