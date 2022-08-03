@@ -1,0 +1,134 @@
+html, body {
+    background-color: #0d1117;
+    color: whitesmoke;
+    text-align: center;
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    width: 100%;
+    height: 100%;
+}
+
+.container {
+    width: 100%;
+    height: 100%;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 20px;
+}
+
+.sub-container {
+    display: flex;
+    gap: 50px;
+    flex-wrap: wrap;
+}
+
+div.gitemail-repo {
+    position: relative;
+}
+  
+div.gitemail-repo input {
+    width: 300px;
+    color: white;
+    font-size: inherit;
+    font-family: inherit;
+    background-color: hsl(236, 32%, 26%);
+    padding: 0.35em 0.45em;
+    border: 1px solid transparent;
+    transition: background-color 0.3s ease-in-out;
+}
+  
+div.gitemail-repo input:focus {
+    outline: none;
+}
+  
+div.gitemail-repo input::placeholder {
+    color: hsla(0, 0%, 100%, 0.6);
+}
+  
+div.gitemail-repo span {
+    position: absolute;
+    background-color: #fc2f70;
+    transform-origin: center;
+    transition: transform 0.5s ease;
+}
+  
+div.gitemail-repo
+.bottom,
+.top {
+    height: 1px;
+    left: 0;
+    right: 0;
+    transform: scaleX(0);
+}
+
+div.gitemail-repo
+.left,
+.right {
+    width: 1px;
+    top: 0;
+    bottom: 0;
+    transform: scaleY(0);
+}
+  
+div.gitemail-repo .top {
+    top: 0;
+}
+  
+div.gitemail-repo .bottom {
+    bottom: 0;
+}
+  
+div.gitemail-repo .left {
+    left: 0;
+}
+  
+div.gitemail-repo .right {
+    right: 0;
+}
+  
+div.gitemail-repo input:focus ~ .top, div.gitemail-repo input:focus ~ .bottom {
+    transform: scaleX(1);
+}
+  
+div.gitemail-repo input:focus ~ .left, div.gitemail-repo input:focus ~ .right {
+    transform: scaleY(1);
+}
+
+
+/* Pulse Button */
+
+button.pulsy-button {
+    z-index: 1;
+    position: relative;
+    font-size: inherit;
+    font-family: inherit;
+    color: white;
+    padding: 10px 15px;
+    outline: none;
+    border: none;
+    background-color: #161b22;
+}
+
+button.pulsy-button:hover {
+    cursor: pointer;
+}
+
+button.pulsy-button::before {
+    content: '';
+    z-index: -1;
+    position: absolute;
+    top: 0;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    border: 4px solid hsl(236, 32%, 26%);
+    transform-origin: center;
+    transform: scale(1);
+}
+
+button.pulsy-button:hover::before {
+    transition: all 0.75s ease-in-out;
+    transform-origin: center;
+    transform: scale(1.75);
+    opacity: 0;
+}

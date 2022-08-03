@@ -6,7 +6,8 @@ window.onload = () => {
         .addEventListener(
             "click",
             () => evaluateInput(),
-            false);
+            false
+        );
 }
 
 const evaluateInput = async () => {

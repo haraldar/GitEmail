@@ -1,5 +1,3 @@
-// import { _ } from "lib/ghhelpers.js";
-
 let errored = false;
 let currentURL = null;
 
@@ -75,6 +73,7 @@ const createNodeElem = function (type, attrs = {}, children = [], listener = nul
  * @param {string} btnId - The HTML id to use for the button in the website.
  * @param {string} btnText - The text that is displayed on the button.
  * @param {EventListener} listener - The EventListener for the tab.
+ * @returns {HTMLElement}
  */
 const addTabButton = function (id, text, listener) {
 
@@ -101,6 +100,8 @@ const addTabButton = function (id, text, listener) {
     const NAV = document.getElementsByClassName("UnderlineNav-body width-full p-responsive");
     if (NAV.length > 0) NAV[0].append(tabBtn);
 
+    return tabBtn;
+
 }
 
 
@@ -110,6 +111,7 @@ const addTabButton = function (id, text, listener) {
  * @param {string} id - The id to use for the element in the frontend.
  * @param {string} text - The text that is presented on the button.
  * @param {EventListener} listener - The action that is to be used upon clicking on the element.
+ * @returns {HTMLElement}
  */
 const addDropDownMenuItem = function (dropdown, id, text, listener = null) {
 
@@ -145,14 +147,9 @@ const addDropDownMenuItem = function (dropdown, id, text, listener = null) {
 
     ddMenu.appendChild(item);
 
+    return item;
+
 }
-
-
-// const addProfileSideSummaryElement = function (elem) {
-
-// }
-
-// const replaceTabContent
 
 
 const gistsBtnAction = function () {
@@ -161,9 +158,12 @@ const gistsBtnAction = function () {
 
 
 const invitationsBtnAction = function () {
+    
     // const user = getUserFromUrl();
-    const mainElem = document.getElementById("js-pjax-container");
-    mainElem.innerHTML = '';
+    // const mainElem = document.getElementById("js-pjax-container");
+    // mainElem.innerHTML = '';
+    window.location.href = chrome.runtime.getURL("routes/invitations/gitemail_invitations.html");
+
 }
 
 
@@ -249,6 +249,7 @@ async function insertGitemailEmail () {
 
 
 function insertGitemailElements () {
+
     if (currentURL !== window.location.href) {
 
         currentURL = window.location.href;
@@ -259,16 +260,21 @@ function insertGitemailElements () {
             gistsBtnAction
         );
 
-        addDropDownMenuItem(
+        const invi = addDropDownMenuItem(
             dropDowns.profile,
             "gitemail-goto-invitations",
-            "Your Invitations",
-            invitationsBtnAction
+            "Your Invitations"
+        );
+        invi.addEventListener(
+            "click",
+            () => { invitationsBtnAction(); },
+            false
         );
         
         if (createGitemailEntry())
             insertGitemailEmail();
     }
+    
 }
 
 

@@ -3,6 +3,9 @@ export const dropDowns = {
     profile: 1
 };
 
+export const printTest = function () {
+    console.log("nalfnwelakfwlkn");
+}
 
 // onselection change event listener for tab ot update if
 // the gitemail data have to be updated
