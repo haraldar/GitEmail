@@ -11,31 +11,58 @@ const dropDowns = {
 // the gitemail data have to be updated
 
 
+/**
+ * Imports the named module/ file dynamically during runtime.
+ * @param {string} filePath 
+ * @returns The dynamically imported module.
+ */
 const getModule = async function (filePath) {
     return await import(chrome.runtime.getURL(filePath));
 }
 
 
+/**
+ * Retrieve a list of the parts that form the URL.
+ * @param {string} delim - The delimiter to split the window href location for.
+ * @returns {list} - A list that holds the parts of the URL.
+ */
 const getUrlParts = function (delim = '/') {
     return window.location.href.split(delim);
 }
 
 
+/**
+ * Retrieve a list of the path parameters from the URL path.
+ * @param {string} delim - The delimiter to split the window URL path.
+ * @returns {list} - A list that holds the parts of the 
+ */
 const getUrlPathParts = function (delim = '/') {
     return window.location.pathname.split(delim);
 }
 
 
+/**
+ * Extracts the user from the URL.
+ * @returns {string} - The user from the URL.
+ */
 const getUserFromUrl = function () {
     return getUrlPathParts()[1];
 }
 
 
+/**
+ * Fetches the element containing the profile side summary.
+ * @returns {HTMLElement} - The element that contains the side summary.
+ */
 const getProfileSummarySide = function () {
     return document.getElementsByClassName("js-profile-editable-area d-flex flex-column d-md-block");
 }
 
 
+/**
+ * Retrieves the Dropdown menus from the GH UI.
+ * @returns {HTMLElement} - The dropdown menus.
+ */
 const getDropDownMenu = function () {
     return document.getElementsByClassName("dropdown-menu dropdown-menu-sw");
 }
@@ -77,7 +104,7 @@ const createNodeElem = function (type, attrs = {}, children = [], listener = nul
  * @param {EventListener} listener - The EventListener for the tab.
  * @returns {HTMLElement}
  */
-const addTabButton = function (id, text, listener) {
+const addTabButton = function (id, text, listener = null) {
 
     const pathParts = getUrlPathParts();
     
@@ -95,9 +122,16 @@ const addTabButton = function (id, text, listener) {
         },
         [
             document.createTextNode(text)
-        ],
-        listener
+        ]
     );
+
+    if (listener !== null) {
+        tabBtn.addEventListener(
+            "click",
+            () => listener(),
+            false
+        )
+    }
 
     const NAV = document.getElementsByClassName("UnderlineNav-body width-full p-responsive");
     if (NAV.length > 0) NAV[0].append(tabBtn);
@@ -154,19 +188,10 @@ const addDropDownMenuItem = function (dropdown, id, text, listener = null) {
 }
 
 
-const gistsBtnAction = function () {
-    window.location = `https://gist.github.com/${getUserFromUrl()}`;
-}
-
-
-const invitationsBtnAction = function () {
-    
-    window.location.href = chrome.runtime.getURL("routes/invitations/gitemail_invitations.html");
-
-}
-
-
-const createInvitationsBtn = function () {
+/**
+ * Create the Invitations button entry in the correct dropdown menu.
+ */
+const createInvitationsMenuBtn = function () {
 
     const id = "gitemail-goto-invitations";
 
@@ -181,9 +206,29 @@ const createInvitationsBtn = function () {
     invi.style = "cursor: pointer;"
     invi.addEventListener(
         "click",
-        () => { invitationsBtnAction(); },
+        () => {
+            window.location.href = chrome.runtime.getURL("routes/invitations/gitemail_invitations.html");
+        },
         false
     );
+}
+
+
+/**
+ * Creates the Gists button amongst the profile tab.
+ */
+const createGistsTabBtn = function () {
+    const gists = addTabButton(
+        "gitemail-gists-btn",
+        "Gists"
+    );
+    gists.addEventListener(
+        "click",
+        () => {
+            window.location = `https://gist.github.com/${getUserFromUrl()}`;
+        },
+        false
+    )
 }
 
 
@@ -244,6 +289,9 @@ function createGitemailEntry () {
 }
 
 
+/**
+ * Inserts the email data fetched for a particular user.
+ */
 async function insertGitemailEmail () {
 
     // Extract user from URL.
@@ -268,19 +316,17 @@ async function insertGitemailEmail () {
 }
 
 
+/**
+ * Applies all the create and insert functions to the GitHub UI.
+ */
 function insertGitemailElements () {
 
     if (currentURL !== window.location.href) {
 
         currentURL = window.location.href;
 
-        addTabButton(
-            "gitemail-gists-btn",
-            "Gists",
-            gistsBtnAction
-        );
-
-        createInvitationsBtn();
+        createGistsTabBtn();
+        createInvitationsMenuBtn();
         
         if (createGitemailEntry())
             insertGitemailEmail();
