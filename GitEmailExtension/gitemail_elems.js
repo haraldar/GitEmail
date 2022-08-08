@@ -1,5 +1,6 @@
 let errored = false;
 let currentURL = null;
+let currentUser = null;
 
 const dropDowns = {
     actions: 0,
@@ -13,7 +14,7 @@ const dropDowns = {
 
 /**
  * Imports the named module/ file dynamically during runtime.
- * @param {string} filePath 
+ * @param {string} filePath
  * @returns The dynamically imported module.
  */
 const getModule = async function (filePath) {
@@ -34,7 +35,7 @@ const getUrlParts = function (delim = '/') {
 /**
  * Retrieve a list of the path parameters from the URL path.
  * @param {string} delim - The delimiter to split the window URL path.
- * @returns {list} - A list that holds the parts of the 
+ * @returns {list} - A list that holds the parts of the
  */
 const getUrlPathParts = function (delim = '/') {
     return window.location.pathname.split(delim);
@@ -107,13 +108,13 @@ const createNodeElem = function (type, attrs = {}, children = [], listener = nul
 const addTabButton = function (id, text, listener = null) {
 
     const pathParts = getUrlPathParts();
-    
+
     if (
         document.getElementById(id) !== null
-        || pathParts.length > 2
+        || pathParts.length > 3
         || pathParts[pathParts.length - 1] === ""
     ) return;
-            
+
     const tabBtn = createNodeElem(
         "button",
         {
@@ -122,7 +123,8 @@ const addTabButton = function (id, text, listener = null) {
         },
         [
             document.createTextNode(text)
-        ]
+        ],
+        listener
     );
 
     if (listener !== null) {
@@ -165,8 +167,8 @@ const addDropDownMenuItem = function (dropdown, id, text, listener = null) {
         ],
         listener
     );
-    
-    
+
+
     if (ddMenu.lastElementChild.localName === "include-fragment") {
 
         const divider = createNodeElem(
@@ -218,8 +220,16 @@ const createInvitationsMenuBtn = function () {
  * Creates the Gists button amongst the profile tab.
  */
 const createGistsTabBtn = function () {
+
+    const id = "gitemail-gists-btn";
+
+    if (
+        getUrlPathParts().length > 2
+        || document.getElementById(id) !== null
+    ) return;
+
     const gists = addTabButton(
-        "gitemail-gists-btn",
+        id,
         "Gists"
     );
     gists.addEventListener(
@@ -233,11 +243,134 @@ const createGistsTabBtn = function () {
 
 
 /**
+ *
+ */
+const createDownloadBtn =  function () {
+    const id = "gitemail-code-dl";
+    const pathParts = getUrlPathParts();
+    
+    if (
+        document.getElementById(id) !== null
+        || document.getElementById("repository-container-header") === null
+        || pathParts.length < 4
+    ) return;
+
+    const user = pathParts[1];
+    const repo = pathParts[2];
+
+    const fileNavChildren = document
+        .getElementsByClassName("file-navigation mb-3 d-flex flex-items-start")[0]
+        .children;
+
+    const targetDiv = fileNavChildren[fileNavChildren.length - 1];
+
+
+    const httpsLi = createNodeElem(
+        "li",
+        {},
+        [
+            createNodeElem(
+                "button",
+                {
+                    class: "dropdown-item btn-link"
+                },
+                [
+                    document.createTextNode(`https: https://github.com/${user}/${repo}.git`)
+                ]
+            )
+        ]
+    );
+
+    const sshLi = createNodeElem(
+        "li",
+        {},
+        [
+            createNodeElem(
+                "button",
+                {
+                    class: "dropdown-item btn-link"
+                },
+                [
+                    document.createTextNode(`SSH: git@github.com:${user}/${repo}.git`)
+                ]
+            )
+        ]
+    );
+
+    const ghCliLi = createNodeElem(
+        "li",
+        {},
+        [
+            createNodeElem(
+                "button",
+                {
+                    class: "dropdown-item btn-link"
+                },
+                [
+                    document.createTextNode(`GH CLI: gh repo clone ${user}/${repo}`)
+                ]
+            )
+        ]
+    );
+
+    const optionsUl = createNodeElem(
+        "ul",
+        {
+            class: "dropdown-menu dropdown-menu-sw",
+            style: "margin: 2px 0px 0px; width: fit-content;"
+        },
+        [
+            httpsLi,
+            sshLi,
+            ghCliLi
+        ]
+    );
+
+    const optionsDiv = createNodeElem(
+        "div",
+        {
+            "data-view-component" : true
+        },
+        [
+            optionsUl
+        ]
+    );
+
+    const summaryElem = createNodeElem(
+        "summary",
+        {
+            class: "btn-primary btn",
+            "data-view-component" : true
+        },
+        [
+            document.createTextNode("Code")
+        ]
+    );
+
+    const detailsElem = createNodeElem(
+        "details",
+        {
+            class: "position-relative details-overlay details-reset js-codespaces-details-container",
+            "data-view-component" : true,
+            style: "margin: 0px 0px 0px 8px;",
+            id
+        },
+        [
+            summaryElem,
+            optionsDiv
+        ]
+    );
+
+    targetDiv.appendChild(detailsElem);
+}
+
+
+/**
  * Create the GitEmail profile summary entry.
  * @returns {boolean} true if element doesn't exist yet else false
  */
 function createGitemailEntry () {
-    
+
     if (document.getElementById("gitemail-email-div") === null)
     {
 
@@ -284,7 +417,7 @@ function createGitemailEntry () {
 
         return true;
     }
-    
+
     return false;
 }
 
@@ -327,11 +460,12 @@ function insertGitemailElements () {
 
         createGistsTabBtn();
         createInvitationsMenuBtn();
-        
-        if (createGitemailEntry())
-            insertGitemailEmail();
+        createDownloadBtn();
+
+        // if (createGitemailEntry())
+        //     insertGitemailEmail();
     }
-    
+
 }
 
 
