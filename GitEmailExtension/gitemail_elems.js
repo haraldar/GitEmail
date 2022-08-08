@@ -256,8 +256,7 @@ const createDownloadBtn =  function () {
         || pathParts.length < 4
     ) return;
 
-    const user = pathParts[1];
-    const repo = pathParts[2];
+    const [ user, repo ] = pathParts.slice(1, 3);
 
     const fileNavChildren = document
         .getElementsByClassName("file-navigation mb-3 d-flex flex-items-start")[0]
@@ -265,66 +264,28 @@ const createDownloadBtn =  function () {
 
     const targetDiv = fileNavChildren[fileNavChildren.length - 1];
 
+    const copyables = [
+        `https: https://github.com/${user}/${repo}.git`,
+        `SSH: git@github.com:${user}/${repo}.git`,
+        `GH CLI: gh repo clone ${user}/${repo}`
+    ];
 
-    const httpsLi = createNodeElem(
-        "li",
-        {},
-        [
-            createNodeElem(
-                "button",
-                {
-                    class: "dropdown-item btn-link"
-                },
-                [
-                    document.createTextNode(`https: https://github.com/${user}/${repo}.git`)
-                ]
-            )
-        ]
-    );
-
-    const sshLi = createNodeElem(
-        "li",
-        {},
-        [
-            createNodeElem(
-                "button",
-                {
-                    class: "dropdown-item btn-link"
-                },
-                [
-                    document.createTextNode(`SSH: git@github.com:${user}/${repo}.git`)
-                ]
-            )
-        ]
-    );
-
-    const ghCliLi = createNodeElem(
-        "li",
-        {},
-        [
-            createNodeElem(
-                "button",
-                {
-                    class: "dropdown-item btn-link"
-                },
-                [
-                    document.createTextNode(`GH CLI: gh repo clone ${user}/${repo}`)
-                ]
-            )
-        ]
-    );
-
-    const optionsUl = createNodeElem(
-        "ul",
-        {
-            class: "dropdown-menu dropdown-menu-sw",
-            style: "margin: 2px 0px 0px; width: fit-content;"
-        },
-        [
-            httpsLi,
-            sshLi,
-            ghCliLi
-        ]
+    const copyItems = copyables.map(
+        copyable => createNodeElem(
+            "li",
+            {},
+            [
+                createNodeElem(
+                    "button",
+                    {
+                        class: "dropdown-item btn-link"
+                    },
+                    [
+                        document.createTextNode(copyable)
+                    ]
+                )
+            ]
+        )
     );
 
     const optionsDiv = createNodeElem(
@@ -333,7 +294,16 @@ const createDownloadBtn =  function () {
             "data-view-component" : true
         },
         [
-            optionsUl
+            createNodeElem(
+                "ul",
+                {
+                    class: "dropdown-menu dropdown-menu-sw",
+                    style: "margin: 2px 0px 0px; width: fit-content;"
+                },
+                [
+                    ...copyItems
+                ]
+            )
         ]
     );
 
