@@ -264,28 +264,59 @@ const createDownloadBtn =  function () {
 
     const targetDiv = fileNavChildren[fileNavChildren.length - 1];
 
-    const copyables = [
-        `https: https://github.com/${user}/${repo}.git`,
-        `SSH: git@github.com:${user}/${repo}.git`,
-        `GH CLI: gh repo clone ${user}/${repo}`
-    ];
+    const copyables = {
+        "https": `https://github.com/${user}/${repo}.git`,
+        "SSH": `git@github.com:${user}/${repo}.git`,
+        "GH CLI": `gh repo clone ${user}/${repo}`
 
-    const copyItems = copyables.map(
-        copyable => createNodeElem(
-            "li",
-            {},
-            [
-                createNodeElem(
-                    "button",
-                    {
-                        class: "dropdown-item btn-link"
-                    },
-                    [
-                        document.createTextNode(copyable)
-                    ]
-                )
-            ]
-        )
+    }
+
+    const copyItems = Object.entries(copyables).map(
+        copyable => {
+            const elem = createNodeElem(
+                "li",
+                {},
+                [
+                    createNodeElem(
+                        "button",
+                        {
+                            class: "dropdown-item btn-link"
+                        },
+                        [
+                            document.createTextNode(`${copyable[0]}: ${copyable[1]}`)
+                        ]
+                    )
+                ]
+            );
+            elem.addEventListener(
+                "click",
+                async () => {
+                    navigator
+                        .clipboard
+                        .writeText(copyable[1]);
+                },
+                false
+            );
+            return elem;
+        }
+    );
+
+    const zipDlBtn = createNodeElem(
+        "button",
+        {
+            class: "dropdown-item btn-link",
+            style: "font-weight: 600;"
+        },
+        [
+            document.createTextNode("Download ZIP")
+        ]
+    );
+    zipDlBtn.addEventListener(
+        "click",
+        () => {
+            window.location.href = `https://github.com/${user}/${repo}/archive/refs/heads/main.zip`;
+        },
+        false
     );
 
     const optionsDiv = createNodeElem(
@@ -301,7 +332,8 @@ const createDownloadBtn =  function () {
                     style: "margin: 2px 0px 0px; width: fit-content;"
                 },
                 [
-                    ...copyItems
+                    ...copyItems,
+                    zipDlBtn
                 ]
             )
         ]
