@@ -247,9 +247,9 @@ const createGistsTabBtn = function () {
  */
 const createDownloadBtn =  function () {
 
+    // For the function to run, at least the following conditions cannot be truthy.
     const id = "gitemail-code-dl-btn";
     const pathParts = getUrlPathParts();
-    
     if (
         document.getElementById(id) !== null
         || document.getElementById("repository-container-header") === null
@@ -258,12 +258,16 @@ const createDownloadBtn =  function () {
 
     const [ user, repo ] = pathParts.slice(1, 3);
 
-    const fileNavChildren = document
-        .getElementsByClassName("file-navigation mb-3 d-flex flex-items-start")[0]
-        .children;
+    // Try get the correct Node to insert the further down following elements.
+    const fileNav = document
+        .getElementsByClassName("file-navigation mb-3 d-flex flex-items-start")[0];
+    if ([undefined, null].includes(fileNav)) return;
 
+    // Extract the last child in the list.
+    const fileNavChildren = fileNav.children;
     const targetDiv = fileNavChildren[fileNavChildren.length - 1];
 
+    // The items that are copied on click to later insert into the commandline.
     const copyables = {
         "https": `https://github.com/${user}/${repo}.git`,
         "SSH": `git@github.com:${user}/${repo}.git`,
@@ -271,6 +275,7 @@ const createDownloadBtn =  function () {
 
     }
 
+    // Map the copyables to their button with their specific behaviour.
     const copyItems = Object.entries(copyables).map(
         copyable => {
             const elem = createNodeElem(
@@ -301,6 +306,7 @@ const createDownloadBtn =  function () {
         }
     );
 
+    // This is the download button for the zip file that contains the repo files.
     const zipDlBtn = createNodeElem(
         "button",
         {
@@ -465,8 +471,7 @@ function insertGitemailElements () {
         createInvitationsMenuBtn();
         createDownloadBtn();
 
-        // if (createGitemailEntry())
-        //     insertGitemailEmail();
+        if (createGitemailEntry()) insertGitemailEmail();
     }
 
 }
