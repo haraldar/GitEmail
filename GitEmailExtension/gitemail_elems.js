@@ -246,7 +246,8 @@ const createGistsTabBtn = function () {
  *
  */
 const createDownloadBtn =  function () {
-    const id = "gitemail-code-dl";
+
+    const id = "gitemail-code-dl-btn";
     const pathParts = getUrlPathParts();
     
     if (
